@@ -145,7 +145,7 @@ if submitted and submissions and rubrics:
                 st.write("### Analysis and Suggestions")
                 st.write(step3_output)
                 st.write("---")
-                st.write("### Action Items")
+                st.write("### Lesson Plan Insights")
                 st.write(response4.text)
             except Exception as e:
                 st.error(f"Gemini API call failed at final step: {e}")
