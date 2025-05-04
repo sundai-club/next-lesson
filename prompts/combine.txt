@@ -1,11 +1,13 @@
 Please analyze all previously reviewed student submissions and the rubric. In your response, include:
 
-A short paragraph summarizing the top 2 strengths and top 2 common growth areas across submissions
+Top 2 strengths across submissions in bullet point format with bolded key terms
+
+Top 2 common growth areas in bullet point format with bolded key terms
 
 A comparison table showing the difference between ‘Proficient’ and ‘Excellent’ in 2 key rubric categories
 
-A single turn-and-talk discussion question instructors could use to surface common misunderstandings
+A generative discussion question instructors can use to prompt students to reflect more deeply on their thinking, decision-making, or communication
 
-Include bullet-pointed teacher notes on what strong and weak student responses might sound like
+Include bullet-pointed teacher listening notes: what should instructors listen for in student responses to surface misunderstandings, oversimplifications, or areas that need further development?
 
 Keep the output concise and practical for immediate use
