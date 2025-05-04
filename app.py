@@ -8,6 +8,7 @@ load_dotenv()
 # Define your prompts here
 PROMPT1 = open('prompts/assess_submission.txt').read()
 PROMPT2 = open('prompts/combine.txt').read()
+PROMPT3 = open('prompts/refine.txt').read()
 
 st.title("Make your next lesson count")
 col1, col2 = st.columns([3, 1])
@@ -88,8 +89,14 @@ if submitted and submissions and rubrics:
                 response = model.generate_content([
                     {"role": "user", "parts": [prompt_part]}
                 ])
+                step2_output = response.text
+                # Step 3: Process step2_output with PROMPT3
+                prompt3_part = {"text": f"Prompt: {PROMPT3}\n\n{step2_output}"}
+                response3 = model.generate_content([
+                    {"role": "user", "parts": [prompt3_part]}
+                ])
                 st.success("Processing complete!")
-                st.write(response.text)
+                st.write(response3.text)
             except Exception as e:
                 st.error(f"Gemini API call failed at final step: {e}")
 else:
