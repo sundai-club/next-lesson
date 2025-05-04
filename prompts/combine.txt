@@ -8,4 +8,4 @@ One generative discussion question instructors can use to prompt students to ref
 
 Include bullet-pointed teacher listening notes: what should instructors listen for in student responses to surface misunderstandings, oversimplifications, or areas that need further development?
 
-Keep the output concise and practical for immediate use
+Keep the output concise and practical for immediate use.

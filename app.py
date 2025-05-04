@@ -68,7 +68,7 @@ if submitted and submissions and rubrics:
                     except Exception as e:
                         st.error(f"Failed to read rubric {rubric_file.name}: {e}")
                 # Compose the prompt as a text part
-                prompt_part = {"text": f"Prompt: {PROMPT2}\n\nAnalyze the following student submission and rubrics."}
+                prompt_part = {"text": PROMPT1}
                 # Gemini multimodal: prompt, rubric files, submission file
                 parts = [prompt_part] + rubric_parts + [submission_part]
                 try:
@@ -85,13 +85,13 @@ if submitted and submissions and rubrics:
             joint_output = "\n\n".join(step1_outputs)
             try:
                 # Compose multimodal input for joint step (text only)
-                prompt_part = {"text": f"Prompt: {PROMPT2}\n\nFiles:\n{joint_output}"}
+                prompt_part = {"text": f"{PROMPT2}\n\nREVIEWS:\n{joint_output}"}
                 response = model.generate_content([
                     {"role": "user", "parts": [prompt_part]}
                 ])
                 step2_output = response.text
                 # Step 3: Process step2_output with PROMPT3
-                prompt3_part = {"text": f"Prompt: {PROMPT3}\n\n{step2_output}"}
+                prompt3_part = {"text": f"{PROMPT3}\n\nANALYSIS:\n\n{step2_output}"}
                 response3 = model.generate_content([
                     {"role": "user", "parts": [prompt3_part]}
                 ])
