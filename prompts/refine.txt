@@ -10,7 +10,7 @@ A short list of teacher listening notes: what instructors should listen for in s
 
 Include 2–3 follow-up prompts or probes teachers can use to deepen the discussion or redirect weak responses toward stronger reasoning
 
-Include a 1-sentence suggestion for how to address this learning gap and adjust this suggestion based on the context of the assignment. For example, if it is a college student's submission, give the professor advice on how to ask a discussion question that will get at the misunderstanding. If it is a response written by a younger student, give the teacher advice on how to incorporate the misunderstanding into an upcoming lesson.
+Include a 1-sentence actionable and detailed suggestion for how to address this learning gap and adjust this suggestion based on the context of the assignment.
 
 Format the output for immediate use. Avoid generic prompts. Ensure the discussion question reflects actual student patterns observed.
 
