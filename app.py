@@ -1,8 +1,8 @@
 import streamlit as st
+st.set_page_config(page_title="Next Lesson", page_icon="static/favicon.png")
 import google.generativeai as genai
 import os
 import tempfile
-from docx2pdf import convert
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -63,16 +63,10 @@ if submitted and submissions and rubrics:
                 submission_bytes = submission_file.read()
                 submission_mime = submission_file.type
                 submission_name = submission_file.name
-                # Convert .docx to PDF if needed
+                # Check if .docx file is uploaded
                 if submission_name.lower().endswith('.docx'):
-                    with tempfile.NamedTemporaryFile(delete=False, suffix='.docx') as tmp_docx:
-                        tmp_docx.write(submission_bytes)
-                        tmp_docx.flush()
-                        tmp_pdf_path = tmp_docx.name.replace('.docx', '.pdf')
-                        convert(tmp_docx.name, tmp_pdf_path)
-                        with open(tmp_pdf_path, 'rb') as pdf_file:
-                            submission_bytes = pdf_file.read()
-                        submission_mime = 'application/pdf'
+                    st.error(".docx to PDF conversion is not supported. Please upload a PDF.")
+                    continue
                 submission_part = {
                     "mime_type": submission_mime,
                     "data": submission_bytes
@@ -84,16 +78,10 @@ if submitted and submissions and rubrics:
                         rubric_bytes = rubric_file.read()
                         rubric_mime = rubric_file.type
                         rubric_name = rubric_file.name
-                        # Convert .docx to PDF if needed
+                        # Check if .docx file is uploaded
                         if rubric_name.lower().endswith('.docx'):
-                            with tempfile.NamedTemporaryFile(delete=False, suffix='.docx') as tmp_docx:
-                                tmp_docx.write(rubric_bytes)
-                                tmp_docx.flush()
-                                tmp_pdf_path = tmp_docx.name.replace('.docx', '.pdf')
-                                convert(tmp_docx.name, tmp_pdf_path)
-                                with open(tmp_pdf_path, 'rb') as pdf_file:
-                                    rubric_bytes = pdf_file.read()
-                                rubric_mime = 'application/pdf'
+                            st.error(".docx to PDF conversion is not supported. Please upload a PDF.")
+                            continue
                         rubric_parts.append({
                             "mime_type": rubric_mime,
                             "data": rubric_bytes
@@ -141,16 +129,10 @@ if submitted and submissions and rubrics:
                             material_bytes = material_file.read()
                             material_mime = material_file.type
                             material_name = material_file.name
-                            # Convert .docx to PDF if needed
+                            # Check if .docx file is uploaded
                             if material_name.lower().endswith('.docx'):
-                                with tempfile.NamedTemporaryFile(delete=False, suffix='.docx') as tmp_docx:
-                                    tmp_docx.write(material_bytes)
-                                    tmp_docx.flush()
-                                    tmp_pdf_path = tmp_docx.name.replace('.docx', '.pdf')
-                                    convert(tmp_docx.name, tmp_pdf_path)
-                                    with open(tmp_pdf_path, 'rb') as pdf_file:
-                                        material_bytes = pdf_file.read()
-                                    material_mime = 'application/pdf'
+                                st.error(".docx to PDF conversion is not supported. Please upload a PDF.")
+                                continue
                             prompt4_parts.append({
                                 "mime_type": material_mime,
                                 "data": material_bytes
