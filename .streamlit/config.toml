@@ -1,2 +1,9 @@
 [theme]
 base="light"
+
+[server]
+fileWatcherTimeout = 3000
+runOnSaveDebounce = 5000
+
+[client]
+connectionTimeout = 6000
