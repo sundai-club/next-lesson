@@ -13,11 +13,11 @@ PROMPT2 = open('prompts/combine.txt').read()
 PROMPT3 = open('prompts/refine.txt').read()
 PROMPT4 = open('prompts/action_items.txt').read()
 
-st.title("Next Lesson")
+st.title("ClarifyED")
 col1, col2 = st.columns([3, 1])
 with col1:
     # st.header("Make your next lesson impactful")
-    st.write("Upload multiple students' submissions and one or more rubric files for analysis. You will get customized suggestions for your next lesson!")
+    st.write("Upload multiple students' submissions and one or more rubric files for analysis. You will get an analysis of overall trends in student data and customized suggestions to implement in your next lesson!")
     st.write("\n---\n*We do not store any uploaded or processed data; all files are processed in-memory and are not retained.  \nAI processing is performed using the Google Gemini API.*\n")
 with col2:
     st.image("static/image.png")
@@ -25,21 +25,21 @@ with col2:
 # # Multifile Gemini Processing Section
 # st.header("Plan your next lesson")
 with st.form("multifile_gemini_form"):
-    st.subheader("Student Submissions for Previous Lesson")
+    st.subheader("Student Submissions")
     submissions = st.file_uploader(
-        "Upload student submissions (one file per student, multiple files allowed)",
+        "Upload student submissions in the form of scanned documents, PNG files, or PDFs. Upload one file per student (multiple files are allowed).",
         accept_multiple_files=True,
         key="submissions_uploader"
     )
-    st.subheader("Rubric Files for Previous Lesson")
+    st.subheader("Rubric File or Answer Key")
     rubrics = st.file_uploader(
-        "Upload a rubric, lesson file(s), or answer key in any format (multiple files allowed)",
+        "Upload a rubric, lesson file(s), an ideal student submission, or an answer key in any format (multiple files allowed)",
         accept_multiple_files=True,
         key="rubrics_uploader"
     )
-    st.subheader("Next Lesson's Materials (Optional)")
+    st.subheader("Lesson Plan (Optional)")
     next_lesson_materials = st.file_uploader(
-        "Optionally upload materials for your next lesson (multiple files allowed)",
+        "Optionally upload materials for your next lesson to inform tailored solutions to gaps in student understanding. If specific questions are noted, ClarifyED will make even more specific suggestions to inform your implementation of that lesson (multiple files allowed)",
         accept_multiple_files=True,
         key="next_lesson_materials_uploader"
     )
