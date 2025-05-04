@@ -37,7 +37,7 @@ with st.form("multifile_gemini_form"):
         accept_multiple_files=True,
         key="rubrics_uploader"
     )
-    st.subheader("Lesson Plan (Optional)")
+    st.subheader("Future Lesson Plan (Optional)")
     next_lesson_materials = st.file_uploader(
         "Optionally upload materials for your next lesson to inform tailored solutions to gaps in student understanding. If specific questions are noted, ClarifyED will make even more specific suggestions to inform your implementation of that lesson (multiple files allowed).",
         accept_multiple_files=True,
