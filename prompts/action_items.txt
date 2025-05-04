@@ -1,3 +1,24 @@
-Based on the analysis provided, generate a 1-sentence actionable and detailed suggestion for the next lesson on how to address this learning gap and adjust this suggestion based on the context of the assignment.
+Please analyze the uploaded lesson plan(s) in combination with the previously analyzed student submissions and rubric. Use the observed student strengths and growth areas to generate targeted refinements that can be integrated into the existing lesson structure.
+
+In your response, include:
+
+Instructional Adjustment Suggestions
+Provide 2–3 concise bullet points recommending how the upcoming lesson can be modified to better address the growth area without losing momentum on student strengths.
+
+Suggestions must align directly with existing components of the lesson (e.g., Do Now, Model, Independent Practice, Exit Ticket).
+
+You may recommend:
+
+Placing extra instructional emphasis on specific questions,
+
+Adjusting how a question is framed or explained,
+
+Rewording prompts to better support conceptual clarity,
+
+Calling out key vocabulary or reasoning patterns during discussion.
+
+Do not propose new activities or lesson components.
+
+Format suggestions for immediate instructional use. Ensure each one is tied to an actual pattern observed in student responses. The suggestion should not increase the length of the lesson. 
 
 If I included the next lesson's materials, then use them.
