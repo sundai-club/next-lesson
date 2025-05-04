@@ -10,11 +10,11 @@ PROMPT1 = open('prompts/assess_submission.txt').read()
 PROMPT2 = open('prompts/combine.txt').read()
 PROMPT3 = open('prompts/refine.txt').read()
 
-st.title("Make your next lesson count")
+st.title("ClarifyED")
 col1, col2 = st.columns([3, 1])
 with col1:
     # st.header("Make your next lesson impactful")
-    st.write("Upload multiple students' submissions and one or more rubric files for analysis (from your previosu lesson). You will get a suggestions for your next lesson.")
+    st.write("Upload multiple students' submissions and one or more rubric files for analysis. You will get customized suggestions for your next lesson!")
     st.write("\n---\n*We do not store any uploaded or processed data; all files are processed in-memory and are not retained.  \nAI processing is performed using the Google Gemini API.*\n")
 with col2:
     st.image("static/image.png")
@@ -30,7 +30,7 @@ with st.form("multifile_gemini_form"):
     )
     st.subheader("Rubric Files")
     rubrics = st.file_uploader(
-        "Upload rubric or lesson file(s) in any format (one or more files allowed)",
+        "Upload a rubric, lesson file(s), or answer key in any format (one or more files allowed)",
         accept_multiple_files=True,
         key="rubrics_uploader"
     )
