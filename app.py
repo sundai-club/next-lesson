@@ -9,13 +9,17 @@ load_dotenv()
 PROMPT1 = open('prompts/assess_submission.txt').read()
 PROMPT2 = open('prompts/combine.txt').read()
 
-st.title("Next Lesson")
-st.header("Make your next lesson impactful")
+st.title("Make your next lesson count")
+col1, col2 = st.columns([3, 1])
+with col1:
+    # st.header("Make your next lesson impactful")
+    st.write("Upload multiple students' submissions and one or more rubric files for analysis. You will get a next lesson's plan.")
+    st.write("\n---\n*We do not store any uploaded or processed data; all files are processed in-memory and are not retained.  \nAI processing is performed using the Google Gemini API.*\n")
+with col2:
+    st.image("static/image.png")
 
 # # Multifile Gemini Processing Section
 # st.header("Plan your next lesson")
-st.write("Upload multiple students' submissions and one or more rubric files for analysis. You will get a next lesson's plan.")
-
 with st.form("multifile_gemini_form"):
     st.subheader("Student Submissions")
     submissions = st.file_uploader(
@@ -29,7 +33,7 @@ with st.form("multifile_gemini_form"):
         accept_multiple_files=True,
         key="rubrics_uploader"
     )
-    submitted = st.form_submit_button("Process!")
+    submitted = st.form_submit_button("Build your next lesson")
 
 if submitted and submissions and rubrics:
     # Prepare Gemini API
@@ -91,5 +95,3 @@ if submitted and submissions and rubrics:
 else:
     if submitted:
         st.warning("Please upload at least one submission and one rubric file.")
-
-st.write("\n---\n*We do not store any uploaded or processed data; all files are processed in-memory and are not retained.  \nAI processing is performed using the Google Gemini API.*\n")
