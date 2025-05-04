@@ -27,7 +27,7 @@ with col2:
 with st.form("multifile_gemini_form"):
     st.subheader("Student Submissions")
     submissions = st.file_uploader(
-        "Upload student submissions in the form of scanned documents, PNG files, or PDFs. Upload one file per student (multiple files are allowed).",
+        "Upload student submissions in the form of scanned documents, PNG files, or PDFs. Upload one file per student, multiple files are allowed (.docx files are not supported).",
         accept_multiple_files=True,
         key="submissions_uploader"
     )
