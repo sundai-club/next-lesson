@@ -1,4 +1,4 @@
-# ClarifyED
+# Next Lesson
 
 Make your next lesson impactful
 
