@@ -1,5 +1,5 @@
 import streamlit as st
-st.set_page_config(page_title="Next Lesson", page_icon="static/favicon.png")
+st.set_page_config(page_title="ClarifyED", page_icon="static/favicon.png")
 import google.generativeai as genai
 import os
 import tempfile
