@@ -1,5 +1,5 @@
 import streamlit as st
-st.set_page_config(page_title="ClarifyED", page_icon="static/favicon.png")
+st.set_page_config(page_title="Next Lesson", page_icon="static/favicon.png")
 import google.generativeai as genai
 import os
 import tempfile
@@ -13,7 +13,7 @@ PROMPT2 = open('prompts/combine.txt').read()
 PROMPT3 = open('prompts/refine.txt').read()
 PROMPT4 = open('prompts/action_items.txt').read()
 
-st.title("ClarifyED")
+st.title("Next Lesson")
 col1, col2 = st.columns([3, 1])
 with col1:
     # st.header("Make your next lesson impactful")
@@ -39,7 +39,7 @@ with st.form("multifile_gemini_form"):
     )
     st.subheader("Future Lesson Plan (Optional)")
     next_lesson_materials = st.file_uploader(
-        "Optionally upload materials for your next lesson to inform tailored solutions to gaps in student understanding. If specific questions are noted, ClarifyED will make even more specific suggestions to inform your implementation of that lesson (multiple files allowed).",
+        "Optionally upload materials for your next lesson to inform tailored solutions to gaps in student understanding. If specific questions are noted, Next Lesson will make even more specific suggestions to inform your implementation of that lesson (multiple files allowed).",
         accept_multiple_files=True,
         key="next_lesson_materials_uploader"
     )
