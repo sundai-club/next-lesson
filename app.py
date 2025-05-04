@@ -1,6 +1,8 @@
 import streamlit as st
 import google.generativeai as genai
 import os
+import tempfile
+from docx2pdf import convert
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -9,6 +11,7 @@ load_dotenv()
 PROMPT1 = open('prompts/assess_submission.txt').read()
 PROMPT2 = open('prompts/combine.txt').read()
 PROMPT3 = open('prompts/refine.txt').read()
+PROMPT4 = open('prompts/action_items.txt').read()
 
 st.title("Next Lesson")
 col1, col2 = st.columns([3, 1])
@@ -22,17 +25,23 @@ with col2:
 # # Multifile Gemini Processing Section
 # st.header("Plan your next lesson")
 with st.form("multifile_gemini_form"):
-    st.subheader("Student Submissions")
+    st.subheader("Student Submissions for Previous Lesson")
     submissions = st.file_uploader(
         "Upload student submissions (one file per student, multiple files allowed)",
         accept_multiple_files=True,
         key="submissions_uploader"
     )
-    st.subheader("Rubric Files")
+    st.subheader("Rubric Files for Previous Lesson")
     rubrics = st.file_uploader(
-        "Upload a rubric, lesson file(s), or answer key in any format (one or more files allowed)",
+        "Upload a rubric, lesson file(s), or answer key in any format (multiple files allowed)",
         accept_multiple_files=True,
         key="rubrics_uploader"
+    )
+    st.subheader("Next Lesson's Materials (Optional)")
+    next_lesson_materials = st.file_uploader(
+        "Optionally upload materials for your next lesson (multiple files allowed)",
+        accept_multiple_files=True,
+        key="next_lesson_materials_uploader"
     )
     submitted = st.form_submit_button("Build your next lesson")
 
@@ -52,8 +61,20 @@ if submitted and submissions and rubrics:
                 # Reset file pointer and read bytes
                 submission_file.seek(0)
                 submission_bytes = submission_file.read()
+                submission_mime = submission_file.type
+                submission_name = submission_file.name
+                # Convert .docx to PDF if needed
+                if submission_name.lower().endswith('.docx'):
+                    with tempfile.NamedTemporaryFile(delete=False, suffix='.docx') as tmp_docx:
+                        tmp_docx.write(submission_bytes)
+                        tmp_docx.flush()
+                        tmp_pdf_path = tmp_docx.name.replace('.docx', '.pdf')
+                        convert(tmp_docx.name, tmp_pdf_path)
+                        with open(tmp_pdf_path, 'rb') as pdf_file:
+                            submission_bytes = pdf_file.read()
+                        submission_mime = 'application/pdf'
                 submission_part = {
-                    "mime_type": submission_file.type,
+                    "mime_type": submission_mime,
                     "data": submission_bytes
                 }
                 rubric_parts = []
@@ -61,8 +82,20 @@ if submitted and submissions and rubrics:
                     try:
                         rubric_file.seek(0)
                         rubric_bytes = rubric_file.read()
+                        rubric_mime = rubric_file.type
+                        rubric_name = rubric_file.name
+                        # Convert .docx to PDF if needed
+                        if rubric_name.lower().endswith('.docx'):
+                            with tempfile.NamedTemporaryFile(delete=False, suffix='.docx') as tmp_docx:
+                                tmp_docx.write(rubric_bytes)
+                                tmp_docx.flush()
+                                tmp_pdf_path = tmp_docx.name.replace('.docx', '.pdf')
+                                convert(tmp_docx.name, tmp_pdf_path)
+                                with open(tmp_pdf_path, 'rb') as pdf_file:
+                                    rubric_bytes = pdf_file.read()
+                                rubric_mime = 'application/pdf'
                         rubric_parts.append({
-                            "mime_type": rubric_file.type,
+                            "mime_type": rubric_mime,
                             "data": rubric_bytes
                         })
                     except Exception as e:
@@ -95,8 +128,44 @@ if submitted and submissions and rubrics:
                 response3 = model.generate_content([
                     {"role": "user", "parts": [prompt3_part]}
                 ])
+                step3_output = response3.text
+                # Step 4: Generate action items with PROMPT4 and next lesson materials if provided
+                prompt4_text = f"{PROMPT4}\n\nANALYSIS:\n\n{step2_output}"
+                prompt4_parts = [
+                    {"text": prompt4_text}
+                ]
+                if next_lesson_materials:
+                    for material_file in next_lesson_materials:
+                        try:
+                            material_file.seek(0)
+                            material_bytes = material_file.read()
+                            material_mime = material_file.type
+                            material_name = material_file.name
+                            # Convert .docx to PDF if needed
+                            if material_name.lower().endswith('.docx'):
+                                with tempfile.NamedTemporaryFile(delete=False, suffix='.docx') as tmp_docx:
+                                    tmp_docx.write(material_bytes)
+                                    tmp_docx.flush()
+                                    tmp_pdf_path = tmp_docx.name.replace('.docx', '.pdf')
+                                    convert(tmp_docx.name, tmp_pdf_path)
+                                    with open(tmp_pdf_path, 'rb') as pdf_file:
+                                        material_bytes = pdf_file.read()
+                                    material_mime = 'application/pdf'
+                            prompt4_parts.append({
+                                "mime_type": material_mime,
+                                "data": material_bytes
+                            })
+                        except Exception as e:
+                            st.error(f"Failed to read next lesson material {material_file.name}: {e}")
+                response4 = model.generate_content([
+                    {"role": "user", "parts": prompt4_parts}
+                ])
                 st.success("Processing complete!")
-                st.write(response3.text)
+                st.write("### Analysis and Suggestions")
+                st.write(step3_output)
+                st.write("---")
+                st.write("### Action Items")
+                st.write(response4.text)
             except Exception as e:
                 st.error(f"Gemini API call failed at final step: {e}")
 else:
