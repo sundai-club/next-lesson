@@ -91,3 +91,5 @@ if submitted and submissions and rubrics:
 else:
     if submitted:
         st.warning("Please upload at least one submission and one rubric file.")
+
+st.write("\n---\n*We do not store any uploaded or processed data; all files are processed in-memory and are not retained.  \nAI processing is performed using the Google Gemini API.*\n")
