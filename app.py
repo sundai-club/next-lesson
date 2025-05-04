@@ -10,7 +10,7 @@ PROMPT1 = open('prompts/assess_submission.txt').read()
 PROMPT2 = open('prompts/combine.txt').read()
 PROMPT3 = open('prompts/refine.txt').read()
 
-st.title("ClarifyED")
+st.title("Next Lesson")
 col1, col2 = st.columns([3, 1])
 with col1:
     # st.header("Make your next lesson impactful")
