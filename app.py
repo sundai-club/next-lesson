@@ -14,7 +14,7 @@ st.title("Make your next lesson count")
 col1, col2 = st.columns([3, 1])
 with col1:
     # st.header("Make your next lesson impactful")
-    st.write("Upload multiple students' submissions and one or more rubric files for analysis. You will get a next lesson's plan.")
+    st.write("Upload multiple students' submissions and one or more rubric files for analysis (from your previosu lesson). You will get a suggestions for your next lesson.")
     st.write("\n---\n*We do not store any uploaded or processed data; all files are processed in-memory and are not retained.  \nAI processing is performed using the Google Gemini API.*\n")
 with col2:
     st.image("static/image.png")
