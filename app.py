@@ -33,13 +33,13 @@ with st.form("multifile_gemini_form"):
     )
     st.subheader("Rubric File or Answer Key")
     rubrics = st.file_uploader(
-        "Upload a rubric, lesson file(s), an ideal student submission, or an answer key in any format (multiple files allowed)",
+        "Upload a rubric, lesson file(s), an ideal student submission, or an answer key in any format (multiple files allowed).",
         accept_multiple_files=True,
         key="rubrics_uploader"
     )
     st.subheader("Lesson Plan (Optional)")
     next_lesson_materials = st.file_uploader(
-        "Optionally upload materials for your next lesson to inform tailored solutions to gaps in student understanding. If specific questions are noted, ClarifyED will make even more specific suggestions to inform your implementation of that lesson (multiple files allowed)",
+        "Optionally upload materials for your next lesson to inform tailored solutions to gaps in student understanding. If specific questions are noted, ClarifyED will make even more specific suggestions to inform your implementation of that lesson (multiple files allowed).",
         accept_multiple_files=True,
         key="next_lesson_materials_uploader"
     )
