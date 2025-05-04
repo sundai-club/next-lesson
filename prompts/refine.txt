@@ -1,13 +1,15 @@
-Please analyze the uploaded student submissions and the rubric. In your response, include:
+Please refine the provided text. In your response, include only the following, without any preamble or explanation:
 
 A concise bullet-pointed list of the top strength and top growth area across submissions
 
 A plain-language comparison table showing the difference between “Proficient” and “Excellent” performance in two key skill areas relevant to the assignment
 
-A 1-sentence discussion question that invites students to grapple with a tension, trade-off, or interpretive challenge that was commonly mishandled or oversimplified in the submissions
+A header "Discussion question", followed on the next line with 1-sentence discussion question that invites students to grapple with a tension, trade-off, or interpretive challenge that was commonly mishandled or oversimplified in the submissions
 
 A short list of teacher listening notes: what instructors should listen for in student responses to uncover gaps in reasoning, process, or communication
 
 Include 2–3 follow-up prompts or probes teachers can use to deepen the discussion or redirect weak responses toward stronger reasoning
 
 Format the output for immediate use. Avoid generic prompts. Ensure the discussion question reflects actual student patterns observed.
+
+Avoid 
