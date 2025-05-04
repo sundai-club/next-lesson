@@ -5,50 +5,98 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-st.title("Next Lesson")
-st.write("Welcome to the Next Lesson app!")
+# Define your prompts here
+PROMPT1 = open('prompts/assess_submission.txt').read()
+PROMPT1 = open('prompts/combine.txt').read()
 
-# Multifile Gemini Processing Section
-st.header("Multifile Processing")
-st.write("Upload multiple files, enter a prompt, and process them with Gemini API.")
+st.title("Next Lesson")
+st.header("Make your next lesson impactful")
+
+# # Multifile Gemini Processing Section
+# st.header("Plan your next lesson")
+st.write("Upload multiple students' submissions and one or more rubric files for analysis. You will get a next lesson's plan.")
 
 with st.form("multifile_gemini_form"):
-    uploaded_files = st.file_uploader("Upload files", accept_multiple_files=True)
-    prompt = st.text_area("Enter your prompt", height=100)
-    submitted = st.form_submit_button("Process with Gemini")
+    st.subheader("Student Submissions")
+    submissions = st.file_uploader(
+        "Upload student submissions (one file per student, multiple files allowed)",
+        accept_multiple_files=True,
+        key="submissions_uploader"
+    )
+    st.subheader("Rubric Files")
+    rubrics = st.file_uploader(
+        "Upload rubric or lesson file(s) in any format (one or more files allowed)",
+        accept_multiple_files=True,
+        key="rubrics_uploader"
+    )
+    submitted = st.form_submit_button("Process!")
 
-if submitted and uploaded_files and prompt:
-    # Read all file contents
-    file_contents = []
-    for file in uploaded_files:
+if submitted and submissions and rubrics:
+    # Read all rubric contents
+    rubric_contents = []
+    for file in rubrics:
         try:
             content = file.read()
-            # Try to decode as text, fallback to repr for binary
             try:
                 content = content.decode("utf-8")
             except Exception:
                 content = str(content)
-            file_contents.append(f"File: {file.name}\n{content}")
+            rubric_contents.append(f"Rubric: {file.name}\n{content}")
         except Exception as e:
-            st.error(f"Failed to read {file.name}: {e}")
-    # Combine all file contents
-    combined_content = "\n\n".join(file_contents)
+            st.error(f"Failed to read rubric {file.name}: {e}")
 
-    # Prepare Gemini API
-    api_key = os.getenv("GEMINI_API_KEY")
-    model = os.getenv("GEMINI_MODEL")
-    if not api_key:
-        st.error("Gemini API key not found. Set GEMINI_API_KEY as env var or in Streamlit secrets.")
-    else:
-        genai.configure(api_key=api_key)
-        model = genai.GenerativeModel(model)
+    # Step 1: Process each submission with all rubrics using PROMPT2
+    step1_outputs = []
+    for submission_file in submissions:
         try:
-            response = model.generate_content([
-                {"role": "user", "parts": [
-                    {"text": f"Prompt: {prompt}\n\nFiles:\n{combined_content}"}
-                ]}
-            ])
-            st.subheader("Gemini Output")
-            st.write(response.text)
+            submission_content = submission_file.read()
+            try:
+                submission_content = submission_content.decode("utf-8")
+            except Exception:
+                submission_content = str(submission_content)
+            submission_block = f"Submission: {submission_file.name}\n{submission_content}"
+            # Combine submission with all rubrics
+            combined_input = "\n\n".join(rubric_contents + [submission_block])
+            # Prepare Gemini API
+            api_key = os.getenv("GEMINI_API_KEY")
+            model_id = os.getenv("GEMINI_MODEL")
+            if not api_key:
+                st.error("Gemini API key not found. Set GEMINI_API_KEY as env var or in Streamlit secrets.")
+                break
+            genai.configure(api_key=api_key)
+            model = genai.GenerativeModel(model_id)
+            try:
+                response = model.generate_content([
+                    {"role": "user", "parts": [
+                        {"text": f"Prompt: {PROMPT2}\n\nFiles:\n{combined_input}"}
+                    ]}
+                ])
+                step1_outputs.append(response.text)
+            except Exception as e:
+                st.error(f"Gemini API call failed for submission {submission_file.name}: {e}")
         except Exception as e:
-            st.error(f"Gemini API error: {e}")
+            st.error(f"Failed to read submission {submission_file.name}: {e}")
+
+    # Step 2: Process joint output of previous step with PROMPT2
+    if step1_outputs:
+        joint_output = "\n\n".join(step1_outputs)
+        try:
+            api_key = os.getenv("GEMINI_API_KEY")
+            model_id = os.getenv("GEMINI_MODEL")
+            if not api_key:
+                st.error("Gemini API key not found. Set GEMINI_API_KEY as env var or in Streamlit secrets.")
+            else:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel(model_id)
+                response = model.generate_content([
+                    {"role": "user", "parts": [
+                        {"text": f"Prompt: {PROMPT2}\n\nFiles:\n{joint_output}"}
+                    ]}
+                ])
+                st.success("Processing complete!")
+                st.write(response.text)
+        except Exception as e:
+            st.error(f"Gemini API call failed at final step: {e}")
+else:
+    if submitted:
+        st.warning("Please upload at least one submission and one rubric file.")
